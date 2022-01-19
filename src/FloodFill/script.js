@@ -12,6 +12,7 @@ window.onload = () => {
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+	// A list of all next position to check in flood fill
 	const stackFloodFill = [];
 
 	let oldColor;
@@ -60,5 +61,4 @@ window.onload = () => {
 		ctx.fillStyle = color;
 		ctx.fillRect(x, y, 1, 1);
 	}
-
 }
