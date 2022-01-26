@@ -22,7 +22,7 @@ class BinarySearchTree {
 	}
 
 	add(value) {
-		if (typeof value !== "number") {
+		if (typeof value !== "number" || isNaN(value)) {
 			console.error("Value need to be a number!");
 			return;
 		}
@@ -68,6 +68,7 @@ class BinarySearchTree {
 			}
 		} while (current);
 	}
+
 	larger() {
 		let current = this.root;
 		do {
@@ -78,7 +79,28 @@ class BinarySearchTree {
 			}
 		} while (current);
 	}
-	search(value) { } // TODO
+
+	search(value) {
+		if (typeof value !== "number") {
+			console.error("Value need to be a number!");
+			return false;
+		}
+
+		let current = this.root;
+		while (current) {
+			if (value === current.value) return true; // Same Value
+
+			else if (current.value > value) { // Left
+				if (current.left === null) return false; // There is no smaller number
+				else current = current.left;
+
+			} else { // Right
+				if (current.right === null) return false; // There is no greater number
+				else current = current.right;
+			}
+		}
+	}
+
 	delete(value) { } // TODO
 
 
@@ -125,6 +147,7 @@ class BinarySearchTree {
 const tree = new BinarySearchTree();
 
 // Interaction Buttons
+// Add new Number
 document.getElementById("AddNewValueBTN")
 	.addEventListener("click", async () => {
 		let inputValue = 0;
@@ -143,6 +166,37 @@ document.getElementById("AddNewValueBTN")
 		tree.add(Number(newValue));
 	});
 
+// Search
+document.getElementById("FindValueBTN")
+	.addEventListener("click", async () => {
+		let inputValue = 0;
+		const { value: newValue } = await Swal.fire({
+			title: "Enter a value to find",
+			input: "number",
+			inputValue: inputValue,
+			showCancelButton: true,
+			inputValidator: (value) => {
+				if (!value) {
+					return "You need to write a number!"
+				}
+			}
+		});
+
+		const numberExists = tree.search(Number(newValue));
+		const message = numberExists ? "Yes, the number was found" : "Nop, there is no such number in the tree"
+		const icon = numberExists ? "success" : "error";
+		Swal.fire({
+			title: message,
+			icon,
+		});
+	});
+
 // Debug
-// function randomNumber(min, max) { return Math.round(Math.random() * (max - min) + min); }
-// for (let i = 0; i < 100; i++) tree.add(randomNumber(0, 100)); 
+const URLParams = new URLSearchParams(window.location.search);
+function randomNumber(min, max) { return Math.round(Math.random() * (max - min) + min); }
+if (URLParams.get("debug")) {
+	for (let i = 0; i < 100; i++) {
+		tree.add(randomNumber(0, 100));
+	}
+	console.log(tree.search(50));
+}

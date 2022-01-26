@@ -25,20 +25,35 @@
 			z-index: -1;
 		}
 
-		button#AddNewValueBTN {
+		div.wrapper-buttons {
+			display: flex;
+			flex-direction: column;
+
+			padding: 5px;
 			position: fixed;
 			top: 10px;
 			left: 10px;
+			border-radius: 4px;
+			background-color: rgba(167, 167, 167, 0.5);
+
+			z-index: 1000000000;
+		}
+
+		button.btn-interactive {
+			margin-bottom: 5px;
 			border: 1px solid white;
 			border-radius: 4px;
 			background-color: black;
 			color: white;
 			cursor: pointer;
-			z-index: 1000000000;
 			transition: 1s;
 		}
 
-		button#AddNewValueBTN:hover {
+		button.btn-interactive:nth-last-child(1) {
+			margin-bottom: 0;
+		}
+
+		button.btn-interactive:hover {
 			transform: scale(1.05);
 		}
 	</style>
@@ -49,7 +64,10 @@
 		</h1>
 	</header>
 
-	<button id="AddNewValueBTN">Add New Value</button>
+	<div class="wrapper-buttons">
+		<button id="AddNewValueBTN" class="btn btn-interactive">Add New Value</button>
+		<button id="FindValueBTN" class="btn btn-interactive">Find Value</button>
+	</div>
 
 	<canvas id="canvas"></canvas>
 
