@@ -27,9 +27,15 @@ class App {
 		}
 	}
 
+	delete(value) {
+		console.clear();
+		this.tree.delete(value);
+		this.draw(this.tree.root);
+	}
+
 	// ----- Canvas
 	draw(root) {
-		console.clear();
+		// console.clear();
 		console.log(this.tree);
 
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -41,8 +47,8 @@ class App {
 
 	drawNode(node, x, y, width, height) {
 		if (node === null) return;
-		const isTheSmaller = this.tree.smaller() === node.value;
-		const isTheLarger = this.tree.larger() === node.value;
+		const isTheSmaller = this.tree.smaller().value === node.value;
+		const isTheLarger = this.tree.larger().value === node.value;
 		const isLastFoundNumber = this.lastFoundValue === node.value;
 
 		// Box
@@ -107,13 +113,38 @@ class App {
 					}
 				});
 
-				const numberExists = this.search(Number(newValue));
+				const numberExists = !!this.search(Number(newValue));
 				const message = numberExists ? "Yes, the number was found" : "Nop, there is no such number in the this.tree"
 				const icon = numberExists ? "success" : "error";
 				Swal.fire({
 					title: message,
 					icon,
 				});
+			});
+
+		// Delete
+		document.getElementById("DeleteValueBTN")
+			.addEventListener("click", async () => {
+				let inputValue = 0;
+				const { value: newValue } = await Swal.fire({
+					title: "Enter a value to find",
+					input: "number",
+					inputValue: inputValue,
+					showCancelButton: true,
+					inputValidator: (value) => {
+						if (!value) {
+							return "You need to write a number!"
+						}
+					}
+				});
+
+				const numberExists = !!this.delete(Number(newValue));
+				// const message = numberExists ? "Yes, the number was found" : "Nop, there is no such number in the this.tree"
+				// const icon = numberExists ? "success" : "error";
+				// Swal.fire({
+				// 	title: message,
+				// 	icon,
+				// });
 			});
 	}
 
