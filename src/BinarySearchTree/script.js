@@ -162,4 +162,4 @@ class App {
 	randomNumber(min, max) { return Math.round(Math.random() * (max - min) + min); }
 }
 
-new App();
+window.onload = () => { new App(); }
