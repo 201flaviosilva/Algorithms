@@ -10,6 +10,8 @@ class Fibonacci {
 		this.lastNumber = 0;
 		this.currentNumber = 1;
 		this.sequence = [0];
+
+		this.draw();
 	}
 
 	calcNextNumber() {
@@ -102,7 +104,6 @@ class Fibonacci {
 
 window.onload = () => {
 	const f = new Fibonacci();
-	// 
 	document.getElementById("NextBTN")
 		.addEventListener("click", async () => { f.calcNextNumber(); });
 
